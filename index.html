@@ -47,11 +47,12 @@
         }
 
         h1 { 
+            font-size: 2.1em;
             color: var(--champagne-gold); /* 標題使用香檳金 */
-            font-weight: 300;
+            font-weight: 500;
             letter-spacing: 4px;
             margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 5px 5px 4px rgba(0,0,0,0.5);
         }
 
         .timestamp { 
@@ -133,6 +134,87 @@
             margin-top: 15px; 
             text-align: right;
         }
+        
+        /* --- 純文字時尚雜誌排版 (Editorial Typography) --- */
+.magazine-text-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* 拉大間距讓文字有呼吸空間 */
+    margin-top: 15px;
+}
+
+.mag-txt-item {
+    position: relative;
+    text-decoration: none;
+    display: block;
+    padding: 10px 0 15px 15px;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+/* 滑鼠懸停時整塊向右滑動，帶有俐落的動態感 */
+.mag-txt-item:hover {
+    transform: translateX(8px);
+    border-bottom: 1px solid var(--champagne-gold);
+}
+
+/* 背景的巨大裝飾數字 (營造雜誌目錄感) */
+.mag-num {
+    position: absolute;
+    top: -20px;
+    left: -15px;
+    font-size: 4.5rem;
+    font-weight: 900;
+    font-family: 'Arial', sans-serif; /* 刻意混搭無襯線體產生對比 */
+    color: rgba(197, 160, 89, 0.08); /* 極淡的香檳金浮水印 */
+    z-index: 0;
+    transition: color 0.4s ease, transform 0.4s ease;
+}
+
+.mag-txt-item:hover .mag-num {
+    color: rgba(197, 160, 89, 0.25);
+    transform: translateY(-5px);
+}
+
+/* 新聞標題本體 */
+.mag-txt-title {
+    position: relative;
+    z-index: 1;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.5;
+    transition: color 0.3s, -webkit-text-stroke 0.3s;
+}
+
+/* 頭條 (第一篇) 巨大化與特效處理 */
+.magazine-text-grid .mag-txt-item:nth-child(1) {
+    padding-bottom: 30px;
+    border-bottom: 2px solid var(--prussian-blue);
+}
+
+.magazine-text-grid .mag-txt-item:nth-child(1) .mag-num {
+    font-size: 6.5rem;
+    top: -30px;
+    color: rgba(0, 49, 83, 0.05); /* 頭條數字改用普魯士藍浮水印 */
+}
+
+.magazine-text-grid .mag-txt-item:nth-child(1) .mag-txt-title {
+    font-size: 1.4rem;
+    color: var(--prussian-blue);
+    letter-spacing: 1px;
+    line-height: 1.3;
+}
+
+/* 滑鼠懸停 */
+.magazine-text-grid .mag-txt-item:nth-child(1):hover .mag-txt-title {
+    color: var(--champagne-gold);
+    -webkit-text-stroke: 1px var(--champagne-gold);
+}
+
+.mag-txt-item:hover .mag-txt-title {
+    color: var(--champagne-gold);
+}
     </style>
 </head>
 <body>
@@ -147,7 +229,7 @@
         
         <div class="section">
             <h2>松本潤</h2>
-            <ul id="matsumoto-news">
+            <ul id="matsumoto-news" class="magazine-text-grid">
                 <div class="loading">過去のデータを取得中...</div>
             </ul>
             <div class="note">*RSSの特性上、アーカイブ記事のみ表示されます</div>
@@ -155,35 +237,35 @@
         
         <div class="section">
             <h2>豊田裕大</h2>
-            <ul id="toyoda-news">
+            <ul id="toyoda-news" class="magazine-text-grid">
                 <div class="loading">最新ニュースを取得中...</div>
             </ul>
         </div>
 
         <div class="section">
             <h2>日本の最新ニュース</h2>
-            <ul id="japan-news">
+            <ul id="japan-news" class="magazine-text-grid">
                 <div class="loading">ニュースを読み込み中...</div>
             </ul>
         </div>
 
         <div class="section">
             <h2>日本の文化・コスメ・グルメ</h2>
-            <ul id="culture-news">
+            <ul id="culture-news" class="magazine-text-grid">
                 <div class="loading">ライフスタイル情報を取得中...</div>
             </ul>
         </div>
 
         <div class="section">
             <h2>最新ファッション雑誌</h2>
-            <ul id="fashion-news">
+            <ul id="fashion-news" class="magazine-text-grid">
                 <div class="loading">トレンドを取得中...</div>
             </ul>
          </div>
         
         <div class="section">
             <h2>コラボ・新作 (コンビニ・無印など)</h2>
-            <ul id="collab-news">
+            <ul id="collab-news" class="magazine-text-grid">
                  <div class="loading">最新情報を取得中...</div>
             </ul>
         </div>
@@ -231,6 +313,51 @@
             console.error('Fetch error:', error);
         }
     }
+    
+    async function fetchTextMagazineNews(rssUrl, elementId) {
+    const apiBase = "https://api.rss2json.com/v1/api.json?rss_url=";
+    const targetElement = document.getElementById(elementId);
+
+    try {
+        const response = await fetch(apiBase + encodeURIComponent(rssUrl));
+        const data = await response.json();
+
+        if (data.status === 'ok') {
+            targetElement.innerHTML = ''; 
+            
+            if (data.items.length === 0) {
+                targetElement.innerHTML = '<div class="note">この期間の関連データはありません</div>';
+                return;
+            }
+
+            // 抓取前 5 篇，營造精華區塊的感覺
+            data.items.slice(0, 8).forEach((item, index) => {
+                
+                const a = document.createElement('a'); 
+                a.href = item.link; 
+                a.className = 'mag-txt-item'; 
+                a.target = "_blank"; 
+                a.rel = "noopener noreferrer"; 
+                
+                // 產生 01, 02, 03 格式的數字
+                const numString = String(index + 1).padStart(2, '0');
+
+                // 將巨型數字與標題組合
+                a.innerHTML = `
+                    <div class="mag-num">${numString}</div>
+                    <div class="mag-txt-title">${item.title}</div>
+                `;
+
+                targetElement.appendChild(a); 
+            });
+        } else {
+            targetElement.innerHTML = '<div class="note">現在、新しい記事はありません</div>';
+        }
+    } catch (error) {
+        targetElement.innerHTML = '<div class="note">読み込みに失敗しました</div>';
+        console.error('Fetch error:', error);
+    }
+}
 
     const toyodaRss = "https://news.google.com/rss/search?q=豊田裕大&hl=ja&gl=JP&ceid=JP:ja";
     const japanRss = "https://news.google.com/rss?hl=ja&gl=JP&ceid=JP:ja";
@@ -239,12 +366,13 @@
     const matsumotoRss = "https://news.google.com/rss/search?q=松本潤+after:2004-01-01+before:2018-12-31&hl=ja&gl=JP&ceid=JP:ja";
     const collabRss = "https://news.google.com/rss/search?q=(セブンイレブン+OR+無印良品+OR+ユニクロ+OR+GU+OR+マツキヨ)+(コラボ+OR+新作+OR+限定)&hl=ja&gl=JP&ceid=JP:ja";
 
-    fetchNews(matsumotoRss, 'matsumoto-news');
-    fetchNews(toyodaRss, 'toyoda-news');
-    fetchNews(japanRss, 'japan-news');
-    fetchNews(cultureRss, 'culture-news');
-    fetchNews(fashionRss, 'fashion-news');
-    fetchNews(collabRss, 'collab-news');
+    fetchTextMagazineNews(matsumotoRss, 'matsumoto-news');
+    fetchTextMagazineNews(toyodaRss, 'toyoda-news');
+    fetchTextMagazineNews(japanRss, 'japan-news');
+    fetchTextMagazineNews(cultureRss, 'culture-news');
+    fetchTextMagazineNews(fashionRss, 'fashion-news');
+    fetchTextMagazineNews(collabRss, 'collab-news');
+    
 </script>
 
 </body>
