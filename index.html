@@ -179,6 +179,13 @@
             <ul id="fashion-news">
                 <div class="loading">トレンドを取得中...</div>
             </ul>
+         </div>
+        
+        <div class="section">
+            <h2>コラボ・新作 (コンビニ・無印など)</h2>
+            <ul id="collab-news">
+                 <div class="loading">最新情報を取得中...</div>
+            </ul>
         </div>
 
     </div>
@@ -230,12 +237,14 @@
     const cultureRss = "https://news.google.com/rss/search?q=日本+(文化+OR+知識+OR+コスメ+OR+グルメ+OR+音楽)&hl=ja&gl=JP&ceid=JP:ja";
     const fashionRss = "https://news.google.com/rss/search?q=(Ray+OR+メンズノンノ+OR+\"MEN'S+NON-NO\")+雑誌+ファッション&hl=ja&gl=JP&ceid=JP:ja";
     const matsumotoRss = "https://news.google.com/rss/search?q=松本潤+after:2004-01-01+before:2018-12-31&hl=ja&gl=JP&ceid=JP:ja";
+    const collabRss = "https://news.google.com/rss/search?q=(セブンイレブン+OR+無印良品+OR+ユニクロ+OR+GU+OR+マツキヨ)+(コラボ+OR+新作+OR+限定)&hl=ja&gl=JP&ceid=JP:ja";
 
     fetchNews(matsumotoRss, 'matsumoto-news');
     fetchNews(toyodaRss, 'toyoda-news');
     fetchNews(japanRss, 'japan-news');
     fetchNews(cultureRss, 'culture-news');
     fetchNews(fashionRss, 'fashion-news');
+    fetchNews(collabRss, 'collab-news');
 </script>
 
 </body>
