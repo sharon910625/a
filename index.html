@@ -11,23 +11,19 @@
 
     <style>
         :root {
-            /* 視覺色彩系統：深藍與香檳金 */
-            --prussian-blue: #003153;   /* 普魯士藍 */
-            --midnight-blue: #0a192f;   /* 午夜深藍 */
-            --champagne-gold: #C5A059;  /* 香檳金 */
-            --gold-hover: #E5D08F;      /* 淺金色 (滑鼠懸停) */
-            --bg-light: #fdfbf7;        /* 帶有奶油質感的暖白底色 */
+            --prussian-blue: #003153;
+            --midnight-blue: #0a192f;
+            --champagne-gold: #C5A059;
+            --bg-light: #fdfbf7;
             --card-bg: #ffffff;
             --text-main: #1a1a1a;
             --text-muted: #737373;
         }
 
         body {
-            /* 設定為襯線字體，展現古典與優雅 */
             font-family: 'Noto Serif JP', 'Yu Mincho', 'Hiragino Mincho ProN', serif;
             background-color: var(--bg-light);
-            /* 頂部加入深藍色漸層，營造深邃空間感 */
-            background-image: linear-gradient(to bottom, var(--midnight-blue) 0%, var(--prussian-blue) 250px, var(--bg-light) 400px);
+            background-image: linear-gradient(to bottom, #0a192f 0%, #003153 250px, #fdfbf7 400px);
             background-repeat: no-repeat;
             margin: 0;
             padding: 20px;
@@ -35,42 +31,39 @@
             min-height: 100vh;
         }
 
-        .container {
-            max-width: 1400px; 
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 0 30px 0;
-            margin-bottom: 40px;
-        }
-
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; padding: 40px 0 30px 0; margin-bottom: 20px; }
+        
         h1 { 
             font-size: 2.1em;
-            color: var(--champagne-gold); /* 標題使用香檳金 */
+            color: #C5A059; 
             font-weight: 500;
             letter-spacing: 4px;
             margin-bottom: 10px;
-            text-shadow: 5px 5px 4px rgba(0,0,0,0.5);
+            text-shadow: 4px 4px 4px rgba(0,0,0,1);
         }
+        .timestamp { color: #a8b2c1; font-size: 0.85em; letter-spacing: 1px; }
 
-        .timestamp { 
-            font-size: 0.85em; 
-            color: #a8b2c1; 
-            letter-spacing: 1px;
-        }
-
-        .grid {
+        /* --- 佈局架構 --- */
+        .top-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1.5fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        .bottom-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 25px;
         }
+        @media (max-width: 900px) {
+            .top-row, .bottom-row { grid-template-columns: 1fr; }
+        }
 
+        /* --- 區塊通用樣式 --- */
         .section {
             background: var(--card-bg);
             padding: 25px;
-            /* 模擬金屬細框的質感 */
             border: 1px solid rgba(197, 160, 89, 0.4); 
             border-radius: 4px;
             box-shadow: 0 8px 20px rgba(0, 49, 83, 0.08);
@@ -78,143 +71,135 @@
             flex-direction: column;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
         .section:hover {
-            transform: translateY(-5px);
+            transform: translateY(-2px);
             box-shadow: 0 12px 25px rgba(0, 49, 83, 0.15);
-            border-color: var(--champagne-gold);
+            border-color: #C5A059;
         }
-
         h2 {
-            color: var(--prussian-blue);
+            color: #003153;
             font-weight: 700;
             font-size: 1.15rem;
             margin-top: 0;
             padding-bottom: 10px;
-            border-bottom: 1px solid var(--champagne-gold);
-            letter-spacing: 1px;
+            border-bottom: 1px solid #C5A059;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 10px 0 0 0;
-            flex-grow: 1; 
+        /* --- 搜尋器全新樣式 (上下佈局整合) --- */
+        .search-section { justify-content: flex-start; }
+        .search-container-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: rgba(10, 25, 47, 0.04); 
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid rgba(0, 49, 83, 0.1);
         }
-
-        li {
-            padding: 12px 0;
-            border-bottom: 1px dashed #e0e0e0;
-            font-size: 0.95rem;
-            line-height: 1.5;
+        .search-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.6);
+            border: none;
+            border-bottom: 2px solid #a8b2c1;
+            font-size: 1.3rem;
+            padding: 12px 10px;
+            color: var(--text-main);
+            font-family: 'Noto Serif JP', serif;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            border-radius: 4px 4px 0 0;
         }
+        .search-input:focus { background: #fff; border-bottom: 2px solid #C5A059; outline: none; }
+        .search-btn {
+            background-color: #003153;
+            color: #fdfbf7;
+            border: none;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+        .search-btn:hover { background-color: #C5A059; color: #003153; }
 
-        li:last-child { border-bottom: none; }
+        /* 內建的搜尋結果區塊 */
+        #dynamic-search-news {
+            margin-top: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        #dynamic-search-news::-webkit-scrollbar { width: 4px; }
+        #dynamic-search-news::-webkit-scrollbar-thumb { background: #C5A059; }
+
+        /* --- 雜誌排版系統 (Magazine Mode) --- */
+        .news-container { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
         
-        a {
-            color: var(--prussian-blue);
+        .mag-txt-item {
+            position: relative;
             text-decoration: none;
-            transition: color 0.3s ease-in-out;
             display: block;
+            padding: 15px 0 15px 15px;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            transition: transform 0.3s, border-color 0.3s;
+            margin-top: 15px;
         }
-
-        a:hover {
-            color: var(--champagne-gold);
+        .mag-txt-item:hover { transform: translateX(8px); border-bottom: 1px solid #C5A059; }
+        
+        .mag-num {
+            position: absolute; top: -15px; left: -10px;
+            font-size: 4rem; font-weight: 900; font-family: 'Arial', sans-serif;
+            color: rgba(197, 160, 89, 0.08); z-index: 0;
+            transition: color 0.4s, transform 0.4s;
         }
-
-        .loading { 
-            color: var(--text-muted); 
-            font-style: italic; 
-            font-size: 0.9em;
-        }
-
-        .note { 
-            font-size: 0.75rem; 
-            color: var(--text-muted); 
-            margin-top: 15px; 
-            text-align: right;
+        .mag-txt-item:hover .mag-num { color: rgba(197, 160, 89, 0.25); transform: translateY(-5px); }
+        
+        .mag-txt-title {
+            position: relative; z-index: 1; font-weight: 700; line-height: 1.4;
+            transition: color 0.3s, -webkit-text-stroke 0.3s;
         }
         
-        /* --- 純文字時尚雜誌排版 (Editorial Typography) --- */
-.magazine-text-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 25px; /* 拉大間距讓文字有呼吸空間 */
-    margin-top: 15px;
-}
+        /* 第一篇: 普魯士藍、字體最大 */
+        .top-headline { padding-bottom: 25px; border-bottom: 2px solid #003153; }
+        .top-headline .mag-num { font-size: 6rem; top: -25px; color: rgba(0, 49, 83, 0.06); }
+        .top-headline .mag-txt-title { font-size: 1.6rem; color: #003153; }
+        .top-headline:hover .mag-txt-title { color: #C5A059; -webkit-text-stroke: 1px #C5A059; }
+        
+        /* 其他篇: 字體次之 */
+        .mag-txt-item:not(.top-headline) .mag-txt-title { font-size: 1.15rem; color: var(--text-main); }
+        .mag-txt-item:not(.top-headline):hover .mag-txt-title { color: #C5A059; }
 
-.mag-txt-item {
-    position: relative;
-    text-decoration: none;
-    display: block;
-    padding: 10px 0 15px 15px;
-    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
+        /* --- 標準排版系統 (Standard Mode) --- */
+        .standard-news-list {
+            list-style: none; padding: 0; margin: 0;
+        }
+        .standard-news-list li { padding: 12px 0; border-bottom: 1px dashed #e0e0e0; }
+        .standard-news-list li:last-child { border-bottom: none; }
+        .standard-link { font-size: 0.95rem; color: #003153; text-decoration: none; display: block; transition: color 0.3s; line-height: 1.5; }
+        .standard-link:hover { color: #C5A059; }
 
-/* 滑鼠懸停時整塊向右滑動，帶有俐落的動態感 */
-.mag-txt-item:hover {
-    transform: translateX(8px);
-    border-bottom: 1px solid var(--champagne-gold);
-}
+        /* --- 手風琴折疊面板 (右下角人物) --- */
+        .tracking-group { display: flex; flex-direction: column; gap: 25px; }
+        .accordion {
+            background: var(--card-bg); border: 1px solid rgba(197, 160, 89, 0.4); 
+            border-radius: 4px; box-shadow: 0 4px 10px rgba(0, 49, 83, 0.05); overflow: hidden;
+        }
+        .accordion-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; cursor: pointer; background: #fff;
+            border-bottom: 2px solid #C5A059; color: #003153; font-size: 1.15rem; font-weight: 700; transition: background 0.3s;
+        }
+        .accordion-header:hover { background: #fdfbf7; }
+        .toggle-icon { font-size: 0.8rem; transition: transform 0.3s ease; color: #C5A059; }
+        .accordion-content { padding: 0 20px; max-height: 600px; overflow-y: auto; transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out; }
+        .accordion-content.collapsed { max-height: 0; padding: 0 20px; border-bottom: none; }
+        .accordion-content::-webkit-scrollbar { width: 4px; }
+        .accordion-content::-webkit-scrollbar-thumb { background: #C5A059; }
 
-/* 背景的巨大裝飾數字 (營造雜誌目錄感) */
-.mag-num {
-    position: absolute;
-    top: -20px;
-    left: -15px;
-    font-size: 4.5rem;
-    font-weight: 900;
-    font-family: 'Arial', sans-serif; /* 刻意混搭無襯線體產生對比 */
-    color: rgba(197, 160, 89, 0.08); /* 極淡的香檳金浮水印 */
-    z-index: 0;
-    transition: color 0.4s ease, transform 0.4s ease;
-}
-
-.mag-txt-item:hover .mag-num {
-    color: rgba(197, 160, 89, 0.25);
-    transform: translateY(-5px);
-}
-
-/* 新聞標題本體 */
-.mag-txt-title {
-    position: relative;
-    z-index: 1;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text-main);
-    line-height: 1.5;
-    transition: color 0.3s, -webkit-text-stroke 0.3s;
-}
-
-/* 頭條 (第一篇) 巨大化與特效處理 */
-.magazine-text-grid .mag-txt-item:nth-child(1) {
-    padding-bottom: 30px;
-    border-bottom: 2px solid var(--prussian-blue);
-}
-
-.magazine-text-grid .mag-txt-item:nth-child(1) .mag-num {
-    font-size: 6.5rem;
-    top: -30px;
-    color: rgba(0, 49, 83, 0.05); /* 頭條數字改用普魯士藍浮水印 */
-}
-
-.magazine-text-grid .mag-txt-item:nth-child(1) .mag-txt-title {
-    font-size: 1.4rem;
-    color: var(--prussian-blue);
-    letter-spacing: 1px;
-    line-height: 1.3;
-}
-
-/* 滑鼠懸停 */
-.magazine-text-grid .mag-txt-item:nth-child(1):hover .mag-txt-title {
-    color: var(--champagne-gold);
-    -webkit-text-stroke: 1px var(--champagne-gold);
-}
-
-.mag-txt-item:hover .mag-txt-title {
-    color: var(--champagne-gold);
-}
+        .loading { color: #737373; font-style: italic; font-size: 0.9em; padding: 10px 0; }
     </style>
 </head>
 <body>
@@ -225,154 +210,184 @@
         <div class="timestamp" id="current-date"></div>
     </header>
 
-    <div class="grid">
-        
+    <div class="top-row">
         <div class="section">
-            <h2>松本潤</h2>
-            <ul id="matsumoto-news" class="magazine-text-grid">
-                <div class="loading">過去のデータを取得中...</div>
-            </ul>
-            <div class="note">*RSSの特性上、アーカイブ記事のみ表示されます</div>
+            <h2>ニュース</h2>
+            <div id="japan-news" class="news-container"><div class="loading">ニュースを読み込み中...</div></div>
         </div>
-        
+
+        <div class="section search-section">
+            <h2>記事を検索</h2>
+            <div class="search-container-box">
+                <input type="text" id="custom-search-input" class="search-input" placeholder="気になるキーワードを入力...">
+                <button id="custom-search-btn" class="search-btn">検索</button>
+            </div>
+            <div id="dynamic-search-news" class="news-container" style="display: none;"></div>
+        </div>
+    </div>
+
+    <div class="bottom-row">
         <div class="section">
-            <h2>豊田裕大</h2>
-            <ul id="toyoda-news" class="magazine-text-grid">
-                <div class="loading">最新ニュースを取得中...</div>
-            </ul>
+            <h2>文化・生活</h2>
+            <div id="culture-life-news" class="news-container"><div class="loading">情報を取得中...</div></div>
         </div>
 
         <div class="section">
-            <h2>日本の最新ニュース</h2>
-            <ul id="japan-news" class="magazine-text-grid">
-                <div class="loading">ニュースを読み込み中...</div>
-            </ul>
+            <h2>ファッション・ビューテイ</h2>
+            <div id="fashion-beauty-news" class="news-container"><div class="loading">トレンドを取得中...</div></div>
         </div>
 
-        <div class="section">
-            <h2>日本の文化・コスメ・グルメ</h2>
-            <ul id="culture-news" class="magazine-text-grid">
-                <div class="loading">ライフスタイル情報を取得中...</div>
-            </ul>
+        <div class="tracking-group">
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion('matsumoto-content', 'matsumoto-icon')">
+                    <span>松本潤</span>
+                    <span class="toggle-icon" id="matsumoto-icon">▼</span>
+                </div>
+                <div class="accordion-content" id="matsumoto-content">
+                    <div id="matsumoto-news" class="news-container"><div class="loading">取得中...</div></div>
+                </div>
+            </div>
+            
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion('toyoda-content', 'toyoda-icon')">
+                    <span>豊田裕大</span>
+                    <span class="toggle-icon" id="toyoda-icon">▼</span>
+                </div>
+                <div class="accordion-content" id="toyoda-content">
+                    <div id="toyoda-news" class="news-container"><div class="loading">取得中...</div></div>
+                </div>
+            </div>
         </div>
-
-        <div class="section">
-            <h2>最新ファッション雑誌</h2>
-            <ul id="fashion-news" class="magazine-text-grid">
-                <div class="loading">トレンドを取得中...</div>
-            </ul>
-         </div>
-        
-        <div class="section">
-            <h2>コラボ・新作 (コンビニ・無印など)</h2>
-            <ul id="collab-news" class="magazine-text-grid">
-                 <div class="loading">最新情報を取得中...</div>
-            </ul>
-        </div>
-
     </div>
 </div>
 
 <script>
-    // 使用日文格式的日期時間
     document.getElementById('current-date').innerText = `最終更新日時：${new Date().toLocaleString('ja-JP')}`;
+    const apiBase = "https://api.rss2json.com/v1/api.json?rss_url=";
 
-    async function fetchNews(rssUrl, elementId) {
-        const apiBase = "https://api.rss2json.com/v1/api.json?rss_url=";
+    // --- 折疊面板邏輯 ---
+    function toggleAccordion(contentId, iconId) {
+        const content = document.getElementById(contentId);
+        const icon = document.getElementById(iconId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            icon.style.transform = 'rotate(180deg)';
+        } else {
+            content.classList.add('collapsed');
+            icon.style.transform = 'rotate(0deg)';
+        }
+    }
+
+    // --- 可自訂渲染模式引擎 (Render Mode Engine) ---
+    // renderMode: 'hybrid' (混合), 'standard' (全條列), 'magazine' (全雜誌)
+    async function fetchCustomNews(rssUrl, elementId, renderMode) {
         const targetElement = document.getElementById(elementId);
-
         try {
             const response = await fetch(apiBase + encodeURIComponent(rssUrl));
             const data = await response.json();
-
+            
             if (data.status === 'ok') {
                 targetElement.innerHTML = ''; 
-                
-                if (data.items.length === 0) {
-                    targetElement.innerHTML = '<li>この期間の関連データはありません</li>';
-                    return;
+                if (data.items.length === 0) { 
+                    targetElement.innerHTML = '<div class="loading">関連データはありません</div>'; 
+                    return; 
                 }
 
-                data.items.slice(0, 10).forEach(item => {
-                    const li = document.createElement('li');
-                    const a = document.createElement('a'); 
-                    
-                    a.href = item.link; 
-                    a.textContent = item.title; 
-                    a.target = "_blank"; 
-                    a.rel = "noopener noreferrer"; 
+                let htmlContent = '';
+                const limit = 10; // 所有區塊皆抓取 10 篇
+                
+                // 模式 1：全標準字體排版
+                if (renderMode === 'standard') {
+                    htmlContent += `<ul class="standard-news-list">`;
+                    data.items.slice(0, limit).forEach(item => {
+                        htmlContent += `<li><a href="${item.link}" target="_blank" class="standard-link">${item.title}</a></li>`;
+                    });
+                    htmlContent += `</ul>`;
+                } 
+                // 模式 2：全雜誌排版
+                else if (renderMode === 'magazine') {
+                    data.items.slice(0, limit).forEach((item, index) => {
+                        const numString = String(index + 1).padStart(2, '0');
+                        // 移除了 isTopHeadline 的判斷，讓所有標題維持一般大小的雜誌排版
+                        htmlContent += `
+                            <a href="${item.link}" target="_blank" class="mag-txt-item">
+                                <div class="mag-num">${numString}</div>
+                                <div class="mag-txt-title">${item.title}</div>
+                            </a>`;
+                    });
+                }
+                // 模式 3：混合排版 (前3雜誌，後7標準)
+                else { 
+                    data.items.slice(0, limit).forEach((item, index) => {
+                        if (index < 3) {
+                            const numString = String(index + 1).padStart(2, '0');
+                            const isTopHeadline = index === 0 ? 'top-headline' : ''; 
+                            htmlContent += `
+                                <a href="${item.link}" target="_blank" class="mag-txt-item ${isTopHeadline}">
+                                    <div class="mag-num">${numString}</div>
+                                    <div class="mag-txt-title">${item.title}</div>
+                                </a>`;
+                        } else if (index === 3) {
+                            htmlContent += `<ul class="standard-news-list" style="border-top: 1px solid rgba(197, 160, 89, 0.2); padding-top: 10px;">`;
+                            htmlContent += `<li><a href="${item.link}" target="_blank" class="standard-link">${item.title}</a></li>`;
+                        } else {
+                            htmlContent += `<li><a href="${item.link}" target="_blank" class="standard-link">${item.title}</a></li>`;
+                        }
+                    });
+                    if (data.items.length > 3) htmlContent += `</ul>`;
+                }
 
-                    li.appendChild(a); 
-                    targetElement.appendChild(li); 
-                });
-            } else {
-                targetElement.innerHTML = '<li>現在、新しい記事はありません</li>';
+                targetElement.innerHTML = htmlContent;
+
+                // 若為搜尋區塊，確保加載完成後顯示
+                if(elementId === 'dynamic-search-news') {
+                    targetElement.style.display = 'flex';
+                }
+            } else { 
+                targetElement.innerHTML = '<div class="loading">新しい記事はありません</div>'; 
             }
-        } catch (error) {
-            targetElement.innerHTML = '<li>読み込みに失敗しました。ネットワーク接続を確認してください。</li>';
-            console.error('Fetch error:', error);
+        } catch (error) { 
+            targetElement.innerHTML = '<div class="loading">読み込みに失敗しました</div>'; 
         }
     }
-    
-    async function fetchTextMagazineNews(rssUrl, elementId) {
-    const apiBase = "https://api.rss2json.com/v1/api.json?rss_url=";
-    const targetElement = document.getElementById(elementId);
 
-    try {
-        const response = await fetch(apiBase + encodeURIComponent(rssUrl));
-        const data = await response.json();
-
-        if (data.status === 'ok') {
-            targetElement.innerHTML = ''; 
-            
-            if (data.items.length === 0) {
-                targetElement.innerHTML = '<div class="note">この期間の関連データはありません</div>';
-                return;
-            }
-
-            // 抓取前 5 篇，營造精華區塊的感覺
-            data.items.slice(0, 8).forEach((item, index) => {
-                
-                const a = document.createElement('a'); 
-                a.href = item.link; 
-                a.className = 'mag-txt-item'; 
-                a.target = "_blank"; 
-                a.rel = "noopener noreferrer"; 
-                
-                // 產生 01, 02, 03 格式的數字
-                const numString = String(index + 1).padStart(2, '0');
-
-                // 將巨型數字與標題組合
-                a.innerHTML = `
-                    <div class="mag-num">${numString}</div>
-                    <div class="mag-txt-title">${item.title}</div>
-                `;
-
-                targetElement.appendChild(a); 
-            });
-        } else {
-            targetElement.innerHTML = '<div class="note">現在、新しい記事はありません</div>';
-        }
-    } catch (error) {
-        targetElement.innerHTML = '<div class="note">読み込みに失敗しました</div>';
-        console.error('Fetch error:', error);
-    }
-}
-
+    // --- 定義網址 ---
+    const japanNewsRss = "https://news.google.com/rss?hl=ja&gl=JP&ceid=JP:ja";
+    const cultureLifeRss = "https://news.google.com/rss/search?q=日本+(文化+OR+グルメ+OR+旅行+OR+観光+OR+コンビニ)&hl=ja&gl=JP&ceid=JP:ja";
+    const fashionBeautyRss = "https://news.google.com/rss/search?q=(雑誌+OR+レディースファッション+OR+コスメ+新作+OR+無印良品)&hl=ja&gl=JP&ceid=JP:ja";
+    const matsumotoRss = "https://news.google.com/rss/search?q=松本潤+after:2004-01-01+before:2010-12-31&hl=ja&gl=JP&ceid=JP:ja";
     const toyodaRss = "https://news.google.com/rss/search?q=豊田裕大&hl=ja&gl=JP&ceid=JP:ja";
-    const japanRss = "https://news.google.com/rss?hl=ja&gl=JP&ceid=JP:ja";
-    const cultureRss = "https://news.google.com/rss/search?q=日本+(文化+OR+知識+OR+コスメ+OR+グルメ+OR+音楽)&hl=ja&gl=JP&ceid=JP:ja";
-    const fashionRss = "https://news.google.com/rss/search?q=(Ray+OR+メンズノンノ+OR+\"MEN'S+NON-NO\")+雑誌+ファッション&hl=ja&gl=JP&ceid=JP:ja";
-    const matsumotoRss = "https://news.google.com/rss/search?q=松本潤+after:2004-01-01+before:2018-12-31&hl=ja&gl=JP&ceid=JP:ja";
-    const collabRss = "https://news.google.com/rss/search?q=(セブンイレブン+OR+無印良品+OR+ユニクロ+OR+GU+OR+マツキヨ)+(コラボ+OR+新作+OR+限定)&hl=ja&gl=JP&ceid=JP:ja";
 
-    fetchTextMagazineNews(matsumotoRss, 'matsumoto-news');
-    fetchTextMagazineNews(toyodaRss, 'toyoda-news');
-    fetchTextMagazineNews(japanRss, 'japan-news');
-    fetchTextMagazineNews(cultureRss, 'culture-news');
-    fetchTextMagazineNews(fashionRss, 'fashion-news');
-    fetchTextMagazineNews(collabRss, 'collab-news');
+    // --- 執行自訂渲染 ---
+    fetchCustomNews(japanNewsRss, 'japan-news', 'hybrid');           // 當天大事: 混合排版
+    fetchCustomNews(cultureLifeRss, 'culture-life-news', 'standard'); // 文化生活: 標準條列
+    fetchCustomNews(fashionBeautyRss, 'fashion-beauty-news', 'magazine'); // 時尚美妝: 全雜誌排版
     
+    // 人物追蹤: 皆為標準條列 (擷取10篇)
+    fetchCustomNews(matsumotoRss, 'matsumoto-news', 'standard').then(() => {
+        document.getElementById('matsumoto-icon').style.transform = 'rotate(180deg)';
+    });
+    fetchCustomNews(toyodaRss, 'toyoda-news', 'standard').then(() => {
+        document.getElementById('toyoda-content').classList.add('collapsed');
+    });
+
+    // --- 搜尋邏輯 ---
+    function executeSearch() {
+        const keyword = document.getElementById('custom-search-input').value.trim();
+        if (!keyword) { alert("キーワードを入力してください"); return; }
+
+        const searchResultsContainer = document.getElementById('dynamic-search-news');
+        searchResultsContainer.style.display = 'flex';
+        searchResultsContainer.innerHTML = '<div class="loading">情報を取得中...</div>';
+
+        const dynamicRss = `https://news.google.com/rss/search?q=${keyword}&hl=ja&gl=JP&ceid=JP:ja`;
+        fetchCustomNews(dynamicRss, 'dynamic-search-news', 'hybrid'); // 搜尋結果預設套用混合排版
+    }
+
+    document.getElementById('custom-search-btn').addEventListener('click', executeSearch);
+    document.getElementById('custom-search-input').addEventListener('keypress', e => {
+        if (e.key === 'Enter') executeSearch();
+    });
 </script>
 
 </body>
